@@ -63,3 +63,69 @@ async function addEmployees() {
         console.log(err);
     };
 };
+
+async function deleteEmployees() {
+    try {
+        const currentEmployees = await viewAllEmployees();
+        const {id} =
+        await inquirer.prompt([
+            {
+                type: "list",
+                name: "id",
+                message: "What is the name of the employee you would like to delete?",
+                choices: currentEmployees.map((employee) => { 
+                    return {
+                        name: `${employee.first_name} ${employee.last_name}`,
+                        value: employee.id
+                    }
+                })
+            }
+        ])
+        await db.query(`DELETE FROM employee WHERE id = ${id}`);
+        return await viewAllEmployees();
+    } catch (err) {
+        console.log(err);
+    };  
+};
+
+async function updateEmployeeRole() {
+    try {
+        const employees = await viewAllEmployees();
+        //console.table(await viewAllEmployees());
+        const employeeRoles = await viewAllRoles();
+        const { employee, newRole } = await inquirer.prompt([
+            {
+                type: "list",
+                name: "employee",
+                message: "Which employee's role would you like to update?",
+                choices: employees.map((employee) => {
+                    return {
+                        name: `${employee.first_name}, ${employee.last_name}`,
+                        value: employee.id
+                    };
+                }),
+            },
+            {
+                type: "list",
+                name: "newRole",
+                message: "What is the employee's new role?",
+                choices: employeeRoles.map((role) => {
+                    return {
+                        name: role.title,
+                        value: role.id
+                    };
+                })
+            }
+        ])
+        console.log(employee, newRole);
+
+        await db.query(`UPDATE employee SET role_id = ${newRole} WHERE id = ${employee}`);
+        
+        const updatedEmployeeRole = await viewAllEmployees();
+        return updatedEmployeeRole;
+    } catch (err){
+        console.log(err)
+    }
+}
+
+module.exports = { viewAllEmployees, addEmployees, deleteEmployees, updateEmployeeRole };
