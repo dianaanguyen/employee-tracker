@@ -48,5 +48,30 @@ async function addRole() {
     };
 };
 
+async function deleteRole() {
+    try {
+        const CurrentRole = await viewAllRoles();
+        const { id } =
+        await inquirer.prompt([
+            {
+                type: "list",
+                name: "id",
+                message: "What is the title of the role you would like to delete?",
+                choices: CurrentRole.map((role) => { 
+                    return {
+                        name: role.title, 
+                        value: role.id
+                    }
+                })
+            }
+        ])
+        await db.query(`DELETE FROM role WHERE id = ${id}`);
+        return await viewAllRoles();
+        
+    } catch (err) {
+        console.log(err);
+    };  
+};
 
-module.exports = { viewAllRoles, addRole};
+
+module.exports = { viewAllRoles, addRole, deleteRole};
