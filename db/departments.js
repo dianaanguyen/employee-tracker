@@ -3,9 +3,9 @@ const { prompt, default: inquirer } = require("inquirer");
 
 async function viewAllDepartments() {
     try {
-        const department = 
-            await db.query ("SELECT * FROM department")
-        return departments
+        const departments = 
+            await db.query ('SELECT * FROM department')
+        return departments[0];
     } catch (err) {
         console.log(err)
     }
@@ -30,4 +30,28 @@ async function addDepartment() {
     };
 };
 
-module.exports = {viewAllDepartments, addDepartment};
+async function deleteDepartment() {
+    try {
+        const departments = await viewAllDepartments();
+        const { id } =
+        await inquirer.prompt([
+            {
+                type: "list",
+                name: "id",
+                message: "What is the name of the department you would like to delete?",
+                choices: departments.map((department) => { 
+                    return {
+                        name: department.name, 
+                        value: department.id 
+                    }
+                })
+            }
+        ])
+        await db.query(`DELETE FROM department WHERE id = ${id}`);
+        return await viewAllDepartments();
+    } catch (err) {
+        console.log(err);
+    };  
+};
+
+module.exports = {viewAllDepartments, addDepartment, deleteDepartment};
