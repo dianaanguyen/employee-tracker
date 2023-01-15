@@ -2,11 +2,11 @@
 const { prompt } = require("inquirer");
 const db = require("./db/connection");
 const { viewAllDepartments, addDepartment, deleteDepartment } = require("./db/departments");
-const { viewAllEmployees } = require("./db/employees");
+const { viewAllEmployees, addEmployees, deleteEmployees, updateEmployeeRole } = require("./db/employees");
 const { viewAllRoles, addRole, deleteRole } = require("./db/roles");
 
 const start = async () => {
-    console.log("Welcome to the Employee Manager!");
+    // console.log("Welcome to the Employee Manager!");
     const { choice } = await prompt([
         {
             type: "list",
@@ -31,8 +31,8 @@ const start = async () => {
     switch (choice) {
         // departments
         case 'View all departments':
-            const departments = await viewAllDepartments();
-            console.table(departments);
+            const ViewDept = await viewAllDepartments();
+            console.table(ViewDept);
             break;
         case 'Add a department':
             const newDepartment = await addDepartment();
@@ -44,8 +44,8 @@ const start = async () => {
             break;
         // roles
         case 'View all roles':
-            const viewRoles = await viewAllRoles();
-            console.table(viewRoles)
+            const ViewRoles = await viewAllRoles();
+            console.table(ViewRoles)
             break;
         case 'Add a role':
             const newRole = await addRole();
@@ -65,8 +65,8 @@ const start = async () => {
             console.table(newEmployee)
             break;
         case 'Update an employee role':
-            const updateEmployee = await updateEmployeeRole();
-            console.table(updateEmployee)
+            const UpdateEmployee = await updateEmployeeRole();
+            console.table(UpdateEmployee)
             break;
         case 'Delete an employee':
             const removeEmployee = await deleteEmployees();

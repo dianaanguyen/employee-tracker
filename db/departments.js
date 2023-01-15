@@ -25,6 +25,7 @@ async function addDepartment() {
         await db.query(`INSERT INTO department (name) VALUES ("${name}")`)
         const addDepartment = await viewAllDepartments();
         return addDepartment;
+        
     } catch (err) {
         console.log(err);
     };
@@ -49,6 +50,7 @@ async function deleteDepartment() {
         ])
         await db.query(`DELETE FROM department WHERE id = ${id}`);
         return await viewAllDepartments();
+
     } catch (err) {
         console.log(err);
     };  

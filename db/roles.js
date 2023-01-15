@@ -32,7 +32,7 @@ async function addRole() {
                 type: "list",
                 name: "department_id",
                 message: "What is the department of your role?",
-                choices: department_id.map((department) => {
+                choices: departments.map((department) => {
                     return {
                         name: department.name,
                         value: department.id,
@@ -43,6 +43,7 @@ async function addRole() {
         await db.query(`INSERT INTO role (title, salary, department_id) VALUES ("${ title }", "${ salary }", "${ department_id }")`)   
         const newRoles = await viewAllRoles();
         return newRoles;
+        
     } catch (err) {
         console.log(err);
     };
