@@ -1,10 +1,10 @@
 const db = require("./connection");
-const { prompt, default: inquirer } = require("inquirer");
+const inquirer  = require("inquirer");
 
 async function viewAllDepartments() {
     try {
         const departments = 
-            await db.query ('SELECT * FROM department')
+            await db.promise().query ('SELECT * FROM department')
         return departments[0];
     } catch (err) {
         console.log(err)
