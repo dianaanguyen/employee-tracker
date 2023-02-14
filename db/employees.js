@@ -1,11 +1,11 @@
 const db = require("./connection");
-const { prompt, default: inquirer } = require("inquirer");
+const inquirer  = require("inquirer");
 const { viewAllRoles } = require("./roles");
 
 async function viewAllEmployees() {
     try {
         const employees =
-            await db.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, CONCAT (manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id')
+        await db.query('SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, CONCAT (manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id')
         return employees;
         
     } catch (err) {
@@ -92,7 +92,6 @@ async function deleteEmployees() {
 async function updateEmployeeRole() {
     try {
         const employees = await viewAllEmployees();
-        //console.table(await viewAllEmployees());
         const employeeRoles = await viewAllRoles();
         const { employee, newRole } = await inquirer.prompt([
             {
