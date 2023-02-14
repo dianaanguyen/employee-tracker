@@ -13,3 +13,4 @@ This repository contains a an application that utilizes the command line to mana
 Clone the repository and install NPM (npm i). 
 ## Usage <a id="usage"></a>
 Run the application in the command line by running node index.js. 
+## Walkthrough Video
